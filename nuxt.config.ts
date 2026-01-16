@@ -7,7 +7,8 @@ export default defineNuxtConfig({
     '@nuxt/ui'
   ],
   runtimeConfig: {
-    mongodbUri: process.env.MONGODB_URI,
+    // Server-side only (accessible via useRuntimeConfig() in server code)
+    mongodbUri: process.env.MONGODB_URI || '',
     mongodbDb: process.env.MONGODB_DB || 'prestige-worldwide',
     sessionSecret: process.env.SESSION_SECRET || 'change-me-in-production',
     public: {

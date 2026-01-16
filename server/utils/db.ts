@@ -5,9 +5,12 @@ let db: Db | null = null
 
 export async function getDb(): Promise<Db> {
   const config = useRuntimeConfig()
+  // Fallback to process.env for Fly.io secrets
+  const mongodbUri = config.mongodbUri || process.env.MONGODB_URI
+  const mongodbDb = config.mongodbDb || process.env.MONGODB_DB || 'prestige-worldwide'
   
-  if (!config.mongodbUri) {
-    throw new Error('MONGODB_URI is not configured')
+  if (!mongodbUri) {
+    throw new Error('MONGODB_URI is not configured. Please set it as a Fly.io secret using: fly secrets set MONGODB_URI=your-connection-string')
   }
 
   if (db) {
@@ -15,11 +18,11 @@ export async function getDb(): Promise<Db> {
   }
 
   if (!client) {
-    client = new MongoClient(config.mongodbUri)
+    client = new MongoClient(mongodbUri)
     await client.connect()
   }
 
-  db = client.db(config.mongodbDb || 'prestige-worldwide')
+  db = client.db(mongodbDb)
   return db
 }
 
