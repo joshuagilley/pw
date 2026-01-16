@@ -19,6 +19,7 @@
     "@nuxt/ui": "^2.15.0",
     "@nuxtjs/tailwindcss": "^6.12.1",
     "chart.js": "^4.4.1",
+    "gsap": "^3.12.5",
     "mongodb": "^6.3.0",
     "nuxt": "^3.13.0",
     "vue": "^3.5.0",

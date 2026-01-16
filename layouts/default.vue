@@ -5,7 +5,13 @@
         <div class="flex justify-between h-16">
           <div class="flex">
             <NuxtLink to="/" class="flex items-center px-2 py-2 text-xl font-semibold text-gray-900 dark:text-primary-400 transition-colors duration-200">
-              Prestige Worldwide
+              <span class="inline-flex items-center">
+                <svg class="h-5 w-5 mr-2 text-primary-600 dark:text-primary-400" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 21c4-4 7-7.5 7-11a7 7 0 10-14 0c0 3.5 3 7 7 11z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 21V9" />
+                </svg>
+                Stem
+              </span>
             </NuxtLink>
             <div class="hidden sm:ml-6 sm:flex sm:space-x-8">
               <NuxtLink 
@@ -62,6 +68,20 @@
                 ]"
               >
                 Analytics
+              </NuxtLink>
+              <NuxtLink 
+                to="/garden" 
+                :class="[
+                  'inline-flex items-center px-1 pt-1 text-sm font-medium transition-colors duration-200 border-b-2',
+                  route.path.startsWith('/garden') 
+                    ? 'text-gray-900 dark:text-primary-400 border-primary-500 dark:border-primary-500' 
+                    : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-primary-400 hover:border-gray-300 dark:hover:border-primary-600 border-transparent'
+                ]"
+              >
+                <svg class="h-4 w-4 mr-1" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 20v-8m0 0c-3 0-5-2-5-5 3 0 5 2 5 5zm0 0c3 0 5-2 5-5-3 0-5 2-5 5z" />
+                </svg>
+                Garden
               </NuxtLink>
             </div>
           </div>
