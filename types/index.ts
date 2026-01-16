@@ -29,6 +29,8 @@ export interface Component {
   name: string
   notes?: string
   status: EntityStatus
+  completed?: boolean
+  completedAt?: Date
   createdAt: Date
   updatedAt: Date
 }
