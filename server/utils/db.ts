@@ -13,15 +13,42 @@ export async function getDb(): Promise<Db> {
     throw new Error('MONGODB_URI is not configured. Please set it as a Fly.io secret using: fly secrets set MONGODB_URI=your-connection-string')
   }
 
-  if (db) {
-    return db
+  // If we have a client, check if it's connected - reconnect if not
+  if (client) {
+    // Check if topology exists and is not closed
+    const topology = (client as any).topology
+    if (topology && topology.s && topology.s.state === 'connected' && db) {
+      return db
+    }
+    // Topology is closed or invalid, reset
+    try {
+      await client.close()
+    } catch (closeError) {
+      // Ignore close errors
+    }
+    client = null
+    db = null
   }
 
+  // Create new client if needed
   if (!client) {
-    client = new MongoClient(mongodbUri)
-    await client.connect()
+    client = new MongoClient(mongodbUri, {
+      serverSelectionTimeoutMS: 10000, // 10 second timeout
+      socketTimeoutMS: 45000, // 45 second socket timeout
+      connectTimeoutMS: 10000, // 10 second connection timeout
+      maxPoolSize: 10,
+      minPoolSize: 1,
+    })
+    
+    try {
+      await client.connect()
+    } catch (error: any) {
+      client = null
+      throw new Error(`Failed to connect to MongoDB: ${error.message}. Please check your MONGODB_URI and ensure MongoDB is accessible from Fly.io.`)
+    }
   }
 
+  // Get database instance
   db = client.db(mongodbDb)
   return db
 }
